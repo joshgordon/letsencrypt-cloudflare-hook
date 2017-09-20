@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 from __future__ import absolute_import
 from __future__ import division
@@ -147,6 +147,11 @@ def deploy_cert(args):
     domain, privkey_pem, cert_pem, fullchain_pem, chain_pem, timestamp = args
     logger.debug(' + ssl_certificate: {0}'.format(fullchain_pem))
     logger.debug(' + ssl_certificate_key: {0}'.format(privkey_pem))
+    if 'DEPLOY_CERTS_DIR' in os.environ:
+        script = os.path.join(os.environ['DEPLOY_CERTS_DIR'], domain)
+        if os.path.isfile(script) and os.access(script, os.X_OK):
+            logger.debug("calling os.system on " + repr(' '.join([script] + args)))
+            os.system(" ".join([script] + args))
     return
 
 
