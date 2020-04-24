@@ -149,9 +149,13 @@ def deploy_cert(args):
     logger.debug(' + ssl_certificate_key: {0}'.format(privkey_pem))
     if 'DEPLOY_CERTS_DIR' in os.environ:
         script = os.path.join(os.environ['DEPLOY_CERTS_DIR'], domain)
+        all_script = os.path.join(os.environ['DEPLOY_CERTS_DIR'], "allcerts.sh")
         if os.path.isfile(script) and os.access(script, os.X_OK):
             logger.debug("calling os.system on " + repr(' '.join([script] + args)))
             os.system(" ".join([script] + args))
+        if os.path.isfile(all_script) and os.access(all_script, os.X_OK):
+            logger.debug("calling os.system on " + repr(' '.join([all_script] + args)))
+            os.system(" ".join([all_script] + args))
     return
 
 
